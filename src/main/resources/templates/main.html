@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <meta charset="ISO-8859-1">
+    <title>Bulletin Board</title>
+
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+          crossorigin="anonymous">
+
+</head>
+<body>
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed"
+                    data-toggle="collapse" data-target="#navbar" aria-expanded="false"
+                    aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span> <span
+                    class="icon-bar"></span> <span class="icon-bar"></span> <span
+                    class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#" th:href="@{/}">Bulletin Board</a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li sec:authorize="isAuthenticated()"><a th:href="@{/logout}">Logout</a></li>
+                <li sec:authorize="isAuthenticated()" class="disabled"><a th:href="@{/advertisements}">Main page</a></li>
+                <li sec:authorize="isAuthenticated()"><a th:href="@{/account}">Account</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<br>
+<br>
+
+<div class="container">
+
+    <div>
+        <h1> Main Page</h1>
+        Welcome <span sec:authentication="principal.username"> User</span>
+    </div>
+
+            <a class="btn btn-primary" href="/advertisements/new">New advertisement</a>
+            <table class="table table-striped" id="adv_list">
+                <tr>
+                    <th>Header</th>
+                    <th>Description</th>
+                    <th>Date</th>
+                    <th>Author</th>
+                </tr>
+
+                <tr th:each="advs : ${adv}">
+                    <td  class="message"  th:text="${advs.header}"></td>
+                    <td class="message"   th:text="${advs.text}"></td>
+                    <td class="message"   th:text="${advs.date}"></td>
+                    <td class="message"   th:text="${advs.author}"></td>
+                </tr>
+            </table>
+</div>
+</body>
+</html>
